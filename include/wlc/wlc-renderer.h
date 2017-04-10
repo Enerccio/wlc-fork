@@ -16,6 +16,8 @@ struct wlc_geometry;
 struct ctx;
 
 struct wlc_render_api {
+   const char* identifier;
+   
    WLC_NONULL void (*terminate)(struct ctx *render);
    WLC_NONULL void (*resolution)(struct ctx *render, const struct wlc_size *mode, const struct wlc_size *resolution, uint32_t scale);
    WLC_NONULL void (*surface_destroy)(struct ctx *render, struct wlc_context *bound, struct wlc_surface *surface);

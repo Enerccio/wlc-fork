@@ -62,6 +62,16 @@ wlc_output_get_renderer(wlc_handle output)
    return &o->render.api;
 }
 
+WLC_API const char*
+wlc_output_get_renderer_type(wlc_handle output) 
+{
+   struct wlc_output *o;
+   if (!(o = convert_from_wlc_handle(output, "output")))
+      return NULL;
+
+   return o->render.api.identifier;
+}
+
 WLC_API renderer_constructor
 wlc_output_get_renderer_constructor(wlc_handle output)
 {

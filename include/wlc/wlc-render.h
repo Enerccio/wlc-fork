@@ -64,6 +64,14 @@ void wlc_surface_flush_frame_callbacks(wlc_resource surface);
  */
 struct wlc_render_api* wlc_output_get_renderer(wlc_handle output);
 
+/** Returns currently active renderer type on the given output
+ * 
+ * currently supporter is NULL for no renderer or "GLESv2" for GLESv2.
+ * 
+ * Custom renderer can return something else.
+ */
+const char* wlc_output_get_renderer_type(wlc_handle output);
+
 enum wlc_surface_format {
     SURFACE_RGB,
     SURFACE_RGBA,

@@ -894,6 +894,7 @@ wlc_gles2(struct wlc_render_api *api)
    if (!(ctx = create_context()))
       return NULL;
    
+   api->identifier = "GLESv2";
    api->terminate = terminate;
    api->resolution = resolution;
    api->surface_destroy = surface_destroy;
