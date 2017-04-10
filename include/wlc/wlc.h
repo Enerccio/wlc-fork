@@ -160,6 +160,9 @@ struct wlc_modifiers {
 
 /** -- Callbacks API */
 
+/** Output was created but yet not bound to the backend. Use this callback for setting up custom renderer */
+void wlc_set_output_pre_backend_attach_cb(void (*cb)(wlc_handle output));
+
 /** Output was created. Return false if you want to destroy the output. (e.g. failed to allocate data related to view) */
 void wlc_set_output_created_cb(bool (*cb)(wlc_handle output));
 

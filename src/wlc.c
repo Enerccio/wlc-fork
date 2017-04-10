@@ -12,6 +12,11 @@
 #include "xwayland/xwayland.h"
 #include "resources/resources.h"
 
+struct wlc_render_api;
+typedef void* (*renderer_constructor)(struct wlc_render_api *api);
+extern void wlc_output_set_renderer(wlc_handle output, renderer_constructor);
+extern void* wlc_gles2(struct wlc_render_api *api);
+
 static struct wlc {
    struct wlc_compositor compositor;
    struct wlc_interface interface;
@@ -84,6 +89,11 @@ wlc_dlog(enum wlc_debug dbg, const char *fmt, ...)
    va_start(argp, fmt);
    wlc_vlog(WLC_LOG_INFO, fmt, argp);
    va_end(argp);
+}
+
+static void gles2_backend_callback(wlc_handle output) {
+	wlc_log(WLC_LOG_INFO, "Setting default renderer for output");
+	wlc_output_set_renderer(output, wlc_gles2);
 }
 
 uint32_t
@@ -292,6 +302,9 @@ wlc_init(void)
       wlc.log_fun = log_fun;
       wlc.interface = old_interface;
    }
+   
+   // set up default wlc prebackend callback that sets up gles2 renderer
+   wlc.interface.output.prebackend = gles2_backend_callback;
 
    wl_log_set_handler_server(wl_cb_log);
 
@@ -380,6 +393,12 @@ wlc_init(void)
       die("Failed to init compositor");
 
    return true;
+}
+
+WLC_API void
+wlc_set_output_pre_backend_attach_cb(void (*cb)(wlc_handle output))
+{
+   wlc.interface.output.prebackend = cb;
 }
 
 WLC_API void

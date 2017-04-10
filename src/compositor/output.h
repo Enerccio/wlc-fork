@@ -45,6 +45,7 @@ struct wlc_output {
    struct wlc_backend_surface bsurface;
    struct wlc_context context;
    struct wlc_render render;
+   renderer_constructor rconstructor;
 
    // XXX: maybe we can use source later and provide move semantics (for views)?
    struct chck_iter_pool surfaces, views, mutable;

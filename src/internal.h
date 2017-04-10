@@ -18,6 +18,9 @@
 /* Interface struct for communicating with wlc. */
 struct wlc_interface {
    struct {
+      /** Output was created but yet not bound to the backend. Use this callback for setting up custom renderer */
+      void (*prebackend)(wlc_handle output);
+      
       /** Output was created. Return false if you want to destroy the output. (e.g. failed to allocate data related to view) */
       bool (*created)(wlc_handle output);
 

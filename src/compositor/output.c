@@ -563,12 +563,14 @@ wlc_output_set_backend_surface(struct wlc_output *output, struct wlc_backend_sur
    }
 
    if (bsurface) {
+      WLC_INTERFACE_EMIT(output.prebackend, convert_to_wlc_handle(output));
+      
       if (!wlc_context(&output->context, &output->bsurface))
          goto fail;
 
       wlc_context_bind_to_wl_display(&output->context, wlc_display());
 
-      if (!wlc_render(&output->render, &output->context))
+      if (!wlc_render(&output->render, &output->context, output->rconstructor))
          goto fail;
 
       {

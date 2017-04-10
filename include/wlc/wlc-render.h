@@ -10,6 +10,11 @@ extern "C" {
 #include <wlc/wlc-wayland.h>
 
 /**
+ * Holds reference to current renderer
+ */
+struct wlc_render_api;
+
+/**
  * The functions in this file provide some basic rendering capabilities.
  * *_render(), *_read(), *_write() functions should only be called during post/pre render callbacks.
  * wlc_output_schedule_render() is exception and may be used to force wlc to render new frame (causing callbacks to trigger).
@@ -53,14 +58,11 @@ void wlc_output_schedule_render(wlc_handle output);
  */
 void wlc_surface_flush_frame_callbacks(wlc_resource surface);
 
-/** Enabled renderers */
-enum wlc_renderer {
-    WLC_RENDERER_GLES2,
-    WLC_NO_RENDERER
-};
-
-/** Returns currently active renderer on the given output */
-enum wlc_renderer wlc_output_get_renderer(wlc_handle output);
+/** Returns currently active renderer on the given output 
+ * 
+ * you can dynamically modify renderer api after output was created (or inside output created callback)
+ */
+struct wlc_render_api* wlc_output_get_renderer(wlc_handle output);
 
 enum wlc_surface_format {
     SURFACE_RGB,

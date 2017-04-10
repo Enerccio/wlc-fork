@@ -52,14 +52,34 @@ wlc_output_schedule_render(wlc_handle output)
    wlc_output_schedule_repaint(o);
 }
 
-WLC_API enum wlc_renderer
+WLC_API struct wlc_render_api*
 wlc_output_get_renderer(wlc_handle output)
 {
    struct wlc_output *o;
    if (!(o = convert_from_wlc_handle(output, "output")))
-      return WLC_NO_RENDERER;
+      return NULL;
 
-   return o->render.api.renderer_type;
+   return &o->render.api;
+}
+
+WLC_API renderer_constructor
+wlc_output_get_renderer_constructor(wlc_handle output)
+{
+   struct wlc_output *o;
+   if (!(o = convert_from_wlc_handle(output, "output")))
+      return NULL;
+
+   return o->rconstructor;
+}
+
+WLC_API void
+wlc_output_set_renderer(wlc_handle output, renderer_constructor constructor)
+{
+   struct wlc_output *o;
+   if (!(o = convert_from_wlc_handle(output, "output")))
+      return;
+
+   o->rconstructor = constructor;
 }
 
 WLC_API bool

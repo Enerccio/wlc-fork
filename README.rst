@@ -10,7 +10,7 @@ FEATURES
 +------------------+-----------------------+
 | Backends         | DRM, X11              |
 +------------------+-----------------------+
-| Renderers        | EGL, GLESv2           |
+| Renderers        | EGL, GLESv2, Custom   |
 +------------------+-----------------------+
 | TTY session      | logind, legacy (suid) |
 +------------------+-----------------------+
@@ -95,6 +95,14 @@ You can set your preferred keyboard layout using ``XKB_DEFAULT_LAYOUT``.
 
 See xkb documentation for more details.
 
+CUSTOM RENDERER
+---------------
+See ``wlc-renderer.h`` for custom renderer bindings. Also check ``src/platform/render/gles2.c`` for default renderer.
+You can either provide completely custom renderer via ``wlc_output_set_renderer`` that can only be called inside 
+``wlc_set_output_pre_backend_attach_cb`` (otherwise it has no effect) or dynamically change bindings to active renderer 
+via ``wlc_output_get_renderer`` (can be modified from when ``wlc_set_output_created_cb`` is called) - changed bindings will be 
+used next render cycle.
+
 RUNNING ON TTY
 --------------
 
@@ -175,6 +183,7 @@ BINDINGS
 - `go-wlc <https://github.com/mikkeloscar/go-wlc>`_ - Go
 - `rust-wlc <https://github.com/Immington-Industries/rust-wlc>`_ - Rust
 - `wlc.rs <https://github.com/Drakulix/wlc.rs>`_ - Rust
+- `jwlc <https://github.com/Enerccio/jwlc>`_ - Java - work in progress
 
 SOFTWARE USING WLC
 ------------------
