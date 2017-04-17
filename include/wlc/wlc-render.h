@@ -83,7 +83,10 @@ enum wlc_surface_format {
  * For more info what they are check the renderer's source code */
 bool wlc_surface_get_textures(wlc_resource surface, uint32_t out_textures[3], enum wlc_surface_format *out_format);
 
-/** Attaches surface to the output, returns false on failure */
+/** 
+ * Attaches surface to the output, returns false on failure.
+ * If force is true, it will force attach to output, otherwise, if surface is already attached,
+ * it will not be attached again. */
 bool wlc_output_attach_surface(wlc_handle output, wlc_resource surface, bool force);
 
 #ifdef __cplusplus

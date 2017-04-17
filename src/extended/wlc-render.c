@@ -126,7 +126,7 @@ wlc_surface_flush_frame_callbacks_for_output(wlc_resource surface, wlc_handle ou
 }
 
 WLC_API bool 
-wlc_output_attach_surface(wlc_handle out, wlc_resource surf)
+wlc_output_attach_surface(wlc_handle out, wlc_resource surf, bool force)
 {
    struct wlc_output *output;
    if (!(output = convert_from_wlc_handle(out, "output"))) {
@@ -135,7 +135,8 @@ wlc_output_attach_surface(wlc_handle out, wlc_resource surf)
    
    struct wlc_surface *surface;
    if ((surface = convert_from_wlc_resource(surf, "surface"))) {
-      return wlc_surface_attach_to_output(surface, output, wlc_surface_get_buffer(surface));
+      if (!surface->commit.attached || force)
+         return wlc_surface_attach_to_output(surface, output, wlc_surface_get_buffer(surface));
    }
    return false;
 }
